@@ -30,6 +30,12 @@ Plugin 'gmarik/Vundle.vim'
 " http://ethanschoonover.com/solarized/vim-colors-solarized
 Plugin 'altercation/vim-colors-solarized'
 
+" Airline plugin
+Plugin 'bling/vim-airline'
+
+" Python mode plugin
+Plugin 'klen/python-mode'
+
 "--------------------------------------
 " All of your Plugins must be added before the following line
 "--------------------------------------
@@ -60,3 +66,6 @@ set ruler
 set showmode
 " Show the filename in the window titlebar
 set title
+
+" ensures that airline shows up even if you don’t have any split
+set laststatus=2
