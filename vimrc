@@ -1,6 +1,8 @@
 "--------------------------------------
-" Vundle config
+" Vundle config.
 " https://github.com/gmarik/Vundle.vim
+" Install Vundle in order to make the plugins work:
+"  git clone https://github.com/gmarik/Vundle.vim.git ~/.vim/bundle/Vundle.vim
 "--------------------------------------
 set nocompatible              " be iMproved, required
 filetype off                  " required
@@ -31,10 +33,10 @@ Plugin 'gmarik/Vundle.vim'
 Plugin 'altercation/vim-colors-solarized'
 
 " Airline plugin
-Plugin 'bling/vim-airline'
+"Plugin 'bling/vim-airline'
 
 " Python mode plugin
-Plugin 'klen/python-mode'
+"Plugin 'klen/python-mode'
 
 "--------------------------------------
 " All of your Plugins must be added before the following line
@@ -68,4 +70,4 @@ set showmode
 set title
 
 " ensures that airline shows up even if you don’t have any split
-set laststatus=2
+"set laststatus=2
