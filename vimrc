@@ -68,6 +68,10 @@ set ruler
 set showmode
 " Show the filename in the window titlebar
 set title
+" Set linenumbers
+set number
+" enable mouse
+set mouse=a
 
 " ensures that airline shows up even if you don’t have any split
 "set laststatus=2

@@ -21,8 +21,6 @@ echo "cd $dotdir"
 # Make the symlinks
 for file in $files; do
     echo "Make symlink to $file"
+    rm -f ~/.$file
     ln -s $dotdir/$file ~/.$file
 done
-
-# Set global gitignore file
-git config --global core.excludesfile ~/.gitignore_global
