@@ -1,53 +1,107 @@
-# Ensure user-installed binaries take precedence
-export PATH=/usr/local/bin:$PATH
-# Load .bashrc if it exists
-test -f ~/.bashrc && source ~/.bashrc
+# Set initial PATH
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 
-##
-# ls
-# Detect which `ls` flavor is in use
-if ls --color > /dev/null 2>&1; then # GNU `ls`
-	colorflag="--color"
-else # OS X `ls`
-	colorflag="-G"
+# Try to source .bashrc if it exists
+if [ -f ~/.bashrc ]; then
+  source ~/.bashrc
 fi
-# Always use color output for `ls`
-alias ls="command ls ${colorflag}"
-export LS_COLORS='no=00:fi=00:di=01;34:ln=01;36:pi=40;33:so=01;35:do=01;35:bd=40;33;01:cd=40;33;01:or=40;31;01:ex=01;32:*.tar=01;31:*.tgz=01;31:*.arj=01;31:*.taz=01;31:*.lzh=01;31:*.zip=01;31:*.z=01;31:*.Z=01;31:*.gz=01;31:*.bz2=01;31:*.deb=01;31:*.rpm=01;31:*.jar=01;31:*.jpg=01;35:*.jpeg=01;35:*.gif=01;35:*.bmp=01;35:*.pbm=01;35:*.pgm=01;35:*.ppm=01;35:*.tga=01;35:*.xbm=01;35:*.xpm=01;35:*.tif=01;35:*.tiff=01;35:*.png=01;35:*.mov=01;35:*.mpg=01;35:*.mpeg=01;35:*.avi=01;35:*.fli=01;35:*.gl=01;35:*.dl=01;35:*.xcf=01;35:*.xwd=01;35:*.ogg=01;35:*.mp3=01;35:*.wav=01;35:'
 
-alias la="ls -lah"
-# List all files colorized in long format
-alias l="ls -lF ${colorflag}"
-# List all files colorized in long format, including dot files
-alias la="ls -laF ${colorflag}"
-# List only directories
-alias lsd="ls -lF ${colorflag} | grep --color=never '^d'"
+# Alias for sourcing this file easily
+alias sbash='source ~/.bash_profile'
 
-##
-# Navigation
-alias cd..="cd .."
-alias ..="cd .."
-alias ...="cd ../.."
-alias ....="cd ../../.."
-alias .....="cd ../../../.."
+# Set 256 colors terminal
+TERM=xterm-256color
 
-# untar
-alias untar='tar xvf'
-# Always enable colored `grep` output
-alias grep='grep --color=auto '
-# History
-alias h='history'
-# IP addresses
-alias pubip="dig +short myip.opendns.com @resolver1.opendns.com"
-alias localip="sudo ifconfig | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1'"
-alias ips="sudo ifconfig -a | grep -o 'inet6\? \(addr:\)\?\s\?\(\(\([0-9]\+\.\)\{3\}[0-9]\+\)\|[a-fA-F0-9:]\+\)' | awk '{ sub(/inet6? (addr:)? ?/, \"\"); print }'"
-# Flush Directory Service cache
-alias flush="dscacheutil -flushcache && killall -HUP mDNSResponder"
 
-##
+# Configure prompt
+#######################################
+         COLOR_RED="\[\033[0;31m\]"
+   COLOR_LIGHT_RED="\[\033[1;31m\]"
+      COLOR_YELLOW="\[\033[0;33m\]"
+       COLOR_GREEN="\[\033[0;32m\]"
+       COLOR_OCHRE="\[\033[38;5;95m\]"
+        COLOR_BLUE="\[\033[0;34m\]"
+  COLOR_LIGHT_BLUE="\[\033[1;34m\]"
+       COLOR_WHITE="\[\033[0;37m\]"
+COLOR_LIGHT_PURPLE="\[\033[1;35m\]"
+  COLOR_LIGHT_CYAN="\[\033[1;36m\]"
+       COLOR_RESET="\[\e[0m\]"
+
+# Return the prompt symbol to use, colorized based on the return value of the
+# previous command.
+function set_prompt_symbol () {
+  if test $1 -eq 0 ; then
+      PROMPT_SYMBOL="\$"
+  else
+      PROMPT_SYMBOL="${COLOR_LIGHT_RED}\$${COLOR_RESET}"
+  fi
+}
+
+# Set the git status color
+function git_color {
+  local git_status="$(git status 2> /dev/null)"
+
+  if [[ ${git_status} =~ "working directory clean" ]]; then
+    GIT_STATE_COLOR="${COLOR_GREEN}"
+  elif  [[ ${git_status} =~ "working tree clean" ]]; then
+      GIT_STATE_COLOR="${COLOR_GREEN}"
+  elif [[ ${git_status} =~ "Changes to be committed" ]]; then
+    GIT_STATE_COLOR="${COLOR_YELLOW}"
+  elif [[ ${git_status} =~ "nothing added to commit but untracked files present" ]]; then
+    GIT_STATE_COLOR="${COLOR_GREEN}"
+  else
+    GIT_STATE_COLOR="${COLOR_LIGHT_RED}"
+  fi
+}
+
+# Detect whether the current directory is a git repository.
+function is_git_repository {
+  git branch > /dev/null 2>&1
+}
+
+# Set the full bash prompt.
+function set_bash_prompt () {
+  # Set the PROMPT_SYMBOL variable. We do this first so we don't lose the
+  # return value of the last command.
+  set_prompt_symbol $?
+  # Check if git exists and parse some info
+  if is_git_repository ; then
+    gbranch=`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`
+    git_color
+    GIT_STATUS="${GIT_STATE_COLOR}(${gbranch})${COLOR_RESET} "
+  else
+    GIT_STATUS=''
+  fi
+  # Set the bash prompt variable.
+  PS1="${COLOR_GREEN}\u${COLOR_RESET}@${COLOR_LIGHT_BLUE}\h${COLOR_RESET} \w ${GIT_STATUS}${PROMPT_SYMBOL} "
+}
+
+# Tell bash to execute this function just before displaying its prompt.
+PROMPT_COMMAND=set_bash_prompt
+
+
+# Editor
+#######################################
+# Add nvim OS-X install to PATH
+NVIM_PATH="$HOME/nvim-osx64"
+if [ -d "$NVIM_PATH" ]; then
+  PATH="$NVIM_PATH/bin/":$PATH
+fi
+
+# Use neovim if this is installed
+if type nvim > /dev/null 2>&1; then
+  alias vim='nvim'
+fi
+
+# Set default editors to be vim
+export VISUAL=vim
+export EDITOR="$VISUAL"
+
+
 # Git
+#######################################
 # Global gitignore
-git config --global core.excludesfile ~/.gitignore_global
+git config --global core.excludesfile ~/.gitignore
 # Aliasses
 git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
 git config --global alias.lga "log --graph --pretty=oneline --abbrev-commit --decorate --all"
@@ -60,5 +114,39 @@ git config --global color.diff.meta "blue black bold"
 git config --global core.editor vim
 git config --global push.default simple
 
-# added by Anaconda 2.3.0 installer
-export PATH="/anaconda/bin:$PATH"
+
+# Configure ls
+#######################################
+# Add dark themed colors
+export CLICOLOR=1
+export LSCOLORS=GxFxCxDxBxegedabagaced
+
+# some ls aliases
+alias ll='ls -alF'
+alias la='ls -A'
+alias l='ls -CF'
+
+
+# cd aliases
+#######################################
+##
+# Navigation
+alias cd..="cd .."
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+
+
+# Alias misc
+#######################################
+# untar
+alias untar='tar xvf'
+# Always enable colored `grep` output
+alias grep='grep --color=auto '
+# History
+alias h='history'
+
+
+# Anaconda Python
+#######################################

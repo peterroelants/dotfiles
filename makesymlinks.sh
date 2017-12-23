@@ -8,8 +8,6 @@
 #######################################
 # directory with dotfiles
 dotdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-# files to make a symlink of
-files="bash_profile vimrc gitignore_global zshrc"
 
 # Make symlink
 #######################################
@@ -18,9 +16,19 @@ files="bash_profile vimrc gitignore_global zshrc"
 cd $dotdir
 echo "cd $dotdir"
 
-# Make the symlinks
-for file in $files; do
-    echo "Make symlink to $file"
-    rm -f ~/.$file
-    ln -s $dotdir/$file ~/.$file
-done
+# Symlink bash_profile
+echo "Make symlink to bash_profile"
+rm -f ~/.bash_profile
+ln -s $dotdir/bash_profile ~/.bash_profile
+
+# Symlink bash_profile
+echo "Make symlink to gitignore"
+rm -f ~/.gitignore
+ln -s $dotdir/gitignore ~/.gitignore
+
+# Symlink init.vim
+echo "Make symlink to init.vim for both vim an nvim"
+rm -f ~/.vimrc
+rm -f ~/.config/nvim/init.vim
+ln -s $dotdir/init.vim ~/.config/nvim/init.vim
+ln -s $dotdir/init.vim ~/.vimrc
