@@ -30,5 +30,6 @@ ln -s $dotdir/gitignore ~/.gitignore
 echo "Make symlink to init.vim for both vim an nvim"
 rm -f ~/.vimrc
 rm -f ~/.config/nvim/init.vim
+mkdir -p ~/.config/nvim/
 ln -s $dotdir/init.vim ~/.config/nvim/init.vim
 ln -s $dotdir/init.vim ~/.vimrc

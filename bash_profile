@@ -85,7 +85,7 @@ PROMPT_COMMAND=set_bash_prompt
 # Add nvim OS-X install to PATH
 NVIM_PATH="$HOME/nvim-osx64"
 if [ -d "$NVIM_PATH" ]; then
-  PATH="$NVIM_PATH/bin/":$PATH
+  PATH="$NVIM_PATH/bin":$PATH
 fi
 
 # Use neovim if this is installed
@@ -150,3 +150,26 @@ alias h='history'
 
 # Anaconda Python
 #######################################
+
+export SANS_ANACONDA_PATH="$PATH"
+export CONDA_PATH="$HOME/anaconda3/bin"
+
+activate_conda() {
+      export PATH="$CONDA_PATH:$SANS_ANACONDA_PATH"
+}
+export -f activate_conda
+
+deactivate_conda() {
+      export PATH="$SANS_ANACONDA_PATH"
+}
+export -f deactivate_conda
+
+# Activate conda by default
+activate_conda
+
+# Run homebrew without conda by default
+brew () {
+  deactivate_conda
+  command brew "$@"
+  activate_conda
+}
