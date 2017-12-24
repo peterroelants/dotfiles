@@ -12,28 +12,27 @@ alias sbash='source ~/.bash_profile'
 # Set 256 colors terminal
 TERM=xterm-256color
 
+# http://linuxcommand.org/lc3_adv_tput.php
+COLOR_RED="$(tput setaf 1)"
+COLOR_LIGHT_RED="$(tput setaf 1; tput bold)"
+COLOR_YELLOW="$(tput setaf 3)"
+COLOR_GREEN="$(tput setaf 2)"
+COLOR_BLUE="$(tput setaf 4)"
+COLOR_LIGHT_BLUE="$(tput setaf 4; tput bold)"
+COLOR_WHITE="$(tput setaf 7)"
+COLOR_LIGHT_PURPLE="$(tput setaf 5; tput bold)"
+COLOR_LIGHT_CYAN="$(tput setaf 6; tput bold)"
+COLOR_RESET="$(tput sgr0)"
 
-# Configure prompt
-#######################################
-         COLOR_RED="\[\033[0;31m\]"
-   COLOR_LIGHT_RED="\[\033[1;31m\]"
-      COLOR_YELLOW="\[\033[0;33m\]"
-       COLOR_GREEN="\[\033[0;32m\]"
-       COLOR_OCHRE="\[\033[38;5;95m\]"
-        COLOR_BLUE="\[\033[0;34m\]"
-  COLOR_LIGHT_BLUE="\[\033[1;34m\]"
-       COLOR_WHITE="\[\033[0;37m\]"
-COLOR_LIGHT_PURPLE="\[\033[1;35m\]"
-  COLOR_LIGHT_CYAN="\[\033[1;36m\]"
-       COLOR_RESET="\[\e[0m\]"
+
 
 # Return the prompt symbol to use, colorized based on the return value of the
 # previous command.
-function set_prompt_symbol () {
+function set_prompt_symbol_color () {
   if test $1 -eq 0 ; then
-      PROMPT_SYMBOL="\$"
+      PROMPT_SYMBOL_COLOR=""
   else
-      PROMPT_SYMBOL="${COLOR_LIGHT_RED}\$${COLOR_RESET}"
+      PROMPT_SYMBOL_COLOR="${COLOR_LIGHT_RED}"
   fi
 }
 
@@ -60,24 +59,24 @@ function is_git_repository {
 }
 
 # Set the full bash prompt.
+# https://bash.cyberciti.biz/guide/Changing_bash_prompt
 function set_bash_prompt () {
-  # Set the PROMPT_SYMBOL variable. We do this first so we don't lose the
-  # return value of the last command.
-  set_prompt_symbol $?
+  # Set the color of the PROMPT symbol
+  set_prompt_symbol_color $?
   # Check if git exists and parse some info
   if is_git_repository ; then
-    gbranch=`git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'`
+    GIT_BRANCH="($(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'))"
     git_color
-    GIT_STATUS="${GIT_STATE_COLOR}(${gbranch})${COLOR_RESET} "
   else
-    GIT_STATUS=''
+    GIT_BRANCH=''
+    GIT_STATE_COLOR=''
   fi
-  # Set the bash prompt variable.
-  PS1="${COLOR_GREEN}\u${COLOR_RESET}@${COLOR_LIGHT_BLUE}\h${COLOR_RESET} \w ${GIT_STATUS}${PROMPT_SYMBOL} "
+  # Don't set PS1 or things like conda envs won't be properly displayed.
 }
-
-# Tell bash to execute this function just before displaying its prompt.
-PROMPT_COMMAND=set_bash_prompt
+# Set command prompt function to call when the prompt is loaded
+PROMPT_COMMAND="set_bash_prompt"
+# Set the formatting of the first prompt line
+PS1="[\!] \[$COLOR_GREEN\]\u\[$COLOR_RESET\]@\[$COLOR_LIGHT_BLUE\]\h\[$COLOR_RESET\] \w \[\$GIT_STATE_COLOR\]\$GIT_BRANCH\[$COLOR_RESET\] \[\$PROMPT_SYMBOL_COLOR\]\$\[$COLOR_RESET\] "
 
 
 # Editor
@@ -150,7 +149,6 @@ alias h='history'
 
 # Anaconda Python
 #######################################
-
 export SANS_ANACONDA_PATH="$PATH"
 export CONDA_PATH="$HOME/anaconda3/bin"
 
