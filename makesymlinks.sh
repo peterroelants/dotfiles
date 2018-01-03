@@ -33,3 +33,8 @@ rm -f ~/.config/nvim/init.vim
 mkdir -p ~/.config/nvim/
 ln -s $dotdir/init.vim ~/.config/nvim/init.vim
 ln -s $dotdir/init.vim ~/.vimrc
+
+# Symlink tmux.conf
+echo "Make symlink to tmux.conf"
+rm -f ~/.tmux.conf
+ln -s $dotdir/tmux.conf ~/.tmux.conf
