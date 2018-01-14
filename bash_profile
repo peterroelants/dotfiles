@@ -128,7 +128,6 @@ alias l='ls -CF'
 
 # cd aliases
 #######################################
-##
 # Navigation
 alias cd..="cd .."
 alias ..="cd .."

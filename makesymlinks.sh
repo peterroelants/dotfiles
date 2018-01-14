@@ -21,7 +21,12 @@ echo "Make symlink to bash_profile"
 rm -f ~/.bash_profile
 ln -s $dotdir/bash_profile ~/.bash_profile
 
-# Symlink bash_profile
+# Symlink zshrc
+echo "Make symlink to zshrc"
+rm -f ~/.zshrc
+ln -s $dotdir/zshrc ~/.zshrc
+
+# Symlink gitignore
 echo "Make symlink to gitignore"
 rm -f ~/.gitignore
 ln -s $dotdir/gitignore ~/.gitignore
