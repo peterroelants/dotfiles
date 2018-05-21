@@ -17,9 +17,9 @@ cd $dotdir
 echo "cd $dotdir"
 
 # Symlink bash_profile
-echo "Make symlink to bash_profile"
-rm -f ~/.bash_profile
-ln -s $dotdir/bash_profile ~/.bash_profile
+echo "Make symlink to bashrc"
+rm -f ~/.bashrc
+ln -s $dotdir/bashrc ~/.bashrc
 
 # Symlink zshrc
 echo "Make symlink to zshrc"

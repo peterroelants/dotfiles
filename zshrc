@@ -1,6 +1,4 @@
 # If you come from bash you might have to change your $PATH.
-# Set initial PATH
-export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin"
 
 # Path to your oh-my-zsh installation.
 export ZSH=$HOME/.oh-my-zsh
@@ -20,7 +18,6 @@ plugins=(
   common-aliases
   compleat
   git
-  osx
   zsh-256color
 )
 
@@ -35,12 +32,6 @@ source $ZSH/oh-my-zsh.sh
 
 # Editor
 #######################################
-# Add nvim OS-X install to PATH
-NVIM_PATH="$HOME/nvim-osx64"
-if [ -d "$NVIM_PATH" ]; then
-  PATH="$NVIM_PATH/bin":$PATH
-fi
-
 # Use neovim if this is installed
 if type nvim > /dev/null 2>&1; then
   alias vim='nvim'
@@ -100,23 +91,4 @@ alias zshrc='source ~/.zshrc'
 
 # Anaconda Python
 #######################################
-export SANS_ANACONDA_PATH="$PATH"
-export CONDA_PATH="$HOME/anaconda3/bin"
-
-activate_conda() {
-      export PATH="$CONDA_PATH:$SANS_ANACONDA_PATH"
-}
-
-deactivate_conda() {
-      export PATH="$SANS_ANACONDA_PATH"
-}
-
-# Activate conda by default
-activate_conda
-
-# Run homebrew without conda by default
-brew () {
-  deactivate_conda
-  command brew "$@"
-  activate_conda
-}
+# export CONDA_PATH="$HOME/anaconda3/bin:$PATH"
