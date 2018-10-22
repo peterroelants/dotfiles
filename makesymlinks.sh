@@ -7,7 +7,7 @@
 # Variables
 #######################################
 # directory with dotfiles
-dotdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+dotdir="$HOME/dotfiles"
 
 # Make symlink
 #######################################
@@ -43,3 +43,8 @@ ln -s $dotdir/init.vim ~/.vimrc
 echo "Make symlink to tmux.conf"
 rm -f ~/.tmux.conf
 ln -s $dotdir/tmux.conf ~/.tmux.conf
+
+# Symlink xsessionrc
+echo "Make symlink to xsessionrc"
+rm -f ~/.xsessionrc
+ln -s $dotdir/xsessionrc ~/.xsessionrc

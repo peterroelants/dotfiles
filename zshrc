@@ -91,4 +91,4 @@ alias zshrc='source ~/.zshrc'
 
 # Anaconda Python
 #######################################
-# export CONDA_PATH="$HOME/anaconda3/bin:$PATH"
+. $HOME/anaconda3/etc/profile.d/conda.sh
