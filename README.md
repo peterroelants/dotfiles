@@ -15,3 +15,8 @@ These can typically be installed by using oh-my-zsh as a plugin manager.
 
 * [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting)
 * [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions)
+
+
+## Fonts
+
+Look at [Nerd Fonts](https://github.com/ryanoasis/nerd-fonts)

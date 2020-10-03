@@ -1,48 +1,47 @@
-" Use vim instead of vi (ignored by nvim)
-set nocompatible  " be iMproved, required
+call plug#begin('~/.local/share/nvim/plugged')
+
+Plug 'tpope/vim-sensible'
+
+Plug 'morhetz/gruvbox'
+
+Plug 'vim-airline/vim-airline'
+
+Plug 'preservim/nerdcommenter'
+
+Plug 'preservim/nerdtree'
+
+call plug#end()
+
+"--------------------------------------
+" Config section
+"--------------------------------------
 
 
 "--------------------------------------
 " Set visual aspects
 "--------------------------------------
-" Colours
-" Set to 256 terminal color mode
-set t_Co=256  " Note: Neovim ignores t_Co and other terminal codes.
-
-" Neovim true color
-if has('nvim-0.1.5')  " True color in neovim wasn't added until 0.1.5
-    set termguicolors
-endif
-
-" Enable syntax highlighting
+" Set colorsheme
 syntax enable
 
-try
-    colorscheme solarized
-catch
-endtry
-
+let g:gruvbox_italic=1
+colorscheme gruvbox
 set background=dark
+let g:gruvbox_contrast_dark = 'hard'
+set t_Co=256
+let g:gruvbox_termcolors = 256
 
+" Powerline
+let g:airline_powerline_fonts = 1
+let g:airline_theme='gruvbox'
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#formatter = 'default'
 
 "--------------------------------------
 " Character sets
 "--------------------------------------
 " Set utf8 as standard encoding
-set encoding=utf8
-
-" Use Unix as the standard file type (has effect on line ending characters)
-set ffs=unix,dos,mac
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Files, backups and undo
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Turn backup off, since most stuff is in SVN, git et.c anyway...
-set nobackup
-set nowb
-set noswapfile
-
+set fileencoding=utf-8
+set encoding=utf-8
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Text, tab and indent related
@@ -50,26 +49,22 @@ set noswapfile
 " Smart indent
 filetype plugin indent on
 " show existing tab with 4 spaces width
-set tabstop=4
+set tabstop=2
 " when indenting with '>', use 4 spaces width
-set shiftwidth=4
+set shiftwidth=2
 " On pressing tab, insert 4 spaces
 set expandtab
+" Match parentheses
+set showmatch
 
 " Auto indentation
 set autoindent
 
-" " Linebreak on 500 characters
-" set lbr
-" set tw=500
-"
-" set ai "Auto indent
-" set si "Smart indent
-" set wrap "Wrap lines
-
-
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Line numbers and status bar
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Highlight current line
-"set cursorline
+set cursorline
 "hi CursorLine gui=underline
 " Enable line numbers
 set number

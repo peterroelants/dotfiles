@@ -31,13 +31,11 @@ echo "Make symlink to gitignore"
 rm -f ~/.gitignore
 ln -s $dotdir/gitignore ~/.gitignore
 
-# # Symlink init.vim
-# echo "Make symlink to init.vim for both vim an nvim"
-# rm -f ~/.vimrc
-# rm -f ~/.config/nvim/init.vim
-# mkdir -p ~/.config/nvim/
-# ln -s $dotdir/init.vim ~/.config/nvim/init.vim
-# ln -s $dotdir/init.vim ~/.vimrc
+# Symlink init.vim
+echo "Make symlink to init.vim for both vim an nvim"
+rm -f ~/.config/nvim/init.vim
+mkdir -p ~/.config/nvim/
+ln -s $dotdir/init.vim ~/.config/nvim/init.vim
 
 # # Symlink tmux.conf
 # echo "Make symlink to tmux.conf"
