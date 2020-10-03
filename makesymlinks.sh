@@ -31,20 +31,20 @@ echo "Make symlink to gitignore"
 rm -f ~/.gitignore
 ln -s $dotdir/gitignore ~/.gitignore
 
-# Symlink init.vim
-echo "Make symlink to init.vim for both vim an nvim"
-rm -f ~/.vimrc
-rm -f ~/.config/nvim/init.vim
-mkdir -p ~/.config/nvim/
-ln -s $dotdir/init.vim ~/.config/nvim/init.vim
-ln -s $dotdir/init.vim ~/.vimrc
+# # Symlink init.vim
+# echo "Make symlink to init.vim for both vim an nvim"
+# rm -f ~/.vimrc
+# rm -f ~/.config/nvim/init.vim
+# mkdir -p ~/.config/nvim/
+# ln -s $dotdir/init.vim ~/.config/nvim/init.vim
+# ln -s $dotdir/init.vim ~/.vimrc
 
-# Symlink tmux.conf
-echo "Make symlink to tmux.conf"
-rm -f ~/.tmux.conf
-ln -s $dotdir/tmux.conf ~/.tmux.conf
+# # Symlink tmux.conf
+# echo "Make symlink to tmux.conf"
+# rm -f ~/.tmux.conf
+# ln -s $dotdir/tmux.conf ~/.tmux.conf
 
-# Symlink xsessionrc
-echo "Make symlink to xsessionrc"
-rm -f ~/.xsessionrc
-ln -s $dotdir/xsessionrc ~/.xsessionrc
+# # Symlink xsessionrc
+# echo "Make symlink to xsessionrc"
+# rm -f ~/.xsessionrc
+# ln -s $dotdir/xsessionrc ~/.xsessionrc

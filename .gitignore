@@ -9,8 +9,8 @@
 *.tar
 *.zip
 
-# OS generated files #
-######################
+# OS X generated files #
+########################
 .DS_Store
 .DS_Store?
 ._*

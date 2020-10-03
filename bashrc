@@ -205,6 +205,3 @@ if ! shopt -oq posix; then
     . /etc/bash_completion
   fi
 fi
-
-# added by Anaconda3 installer
-. $HOME/anaconda3/etc/profile.d/conda.sh
