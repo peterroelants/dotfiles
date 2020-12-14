@@ -1,0 +1,35 @@
+[user]
+    email = peter.roelants@gmail.com
+    name = Peter Roelants
+[core]
+    excludesfile = ~/.gitignore_global
+    autocrlf = input
+    editor = nvim
+[alias]
+    ci = commit
+    lg = log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+    lga = log --graph --pretty=oneline --abbrev-commit --decorate --all
+    st = status -sbu
+[help]
+    autocorrect = 1
+[color]
+    ui = true
+[color "branch"]
+    current = yellow reverse
+    local = yellow
+    remote = green
+[color "diff"]
+    meta = yellow bold
+    frag = magenta bold
+    old = red bold
+    new = green bold
+[color "status"]
+    added = yellow
+    changed = green
+    untracked = red
+[push]
+    default = simple
+[gui]
+    fontui = -family \"DejaVu Sans\" -size 12 -weight normal -slant roman -underline 0 -overstrike 0
+[web]
+    browser = google-chrome

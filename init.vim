@@ -1,7 +1,7 @@
 "--------------------------------------
 " Plugin section
 "--------------------------------------
-call plug#begin('~/.local/share/nvim/plugged')
+call plug#begin('~/.config/nvim/plugged')
 
 Plug 'tpope/vim-sensible'
 
@@ -100,4 +100,11 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isT
 " Use Tab and Shift-Tab to cycle through buffers
 nnoremap <Tab> :bnext<CR>
 nnoremap <S-Tab> :bprevious<CR>
+
+"--------------------------------------
+" NERDCommenter config
+"--------------------------------------
+" Ctrl-/ for comment untoggle (For some reason, vim registers <C-/> as <C-_>)
+" https://stackoverflow.com/a/9051932/919431
+nmap <C-_> <plug>NERDCommenterToggle
 

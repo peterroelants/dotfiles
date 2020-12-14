@@ -9,9 +9,6 @@ case $- in
       *) return;;
 esac
 
-# Set initial PATH
-export PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin"
-
 # Alias for sourcing this file easily
 alias sbash='source ~/.bashrc'
 
@@ -33,116 +30,47 @@ shopt -s checkwinsize
 # make less more friendly for non-text input files, see lesspipe(1)
 [ -x /usr/bin/lesspipe ] && eval "$(SHELL=/bin/sh lesspipe)"
 
-
-# Set 256 colors terminal
-TERM=xterm-256color
-
-# http://linuxcommand.org/lc3_adv_tput.php
-COLOR_RED="$(tput setaf 1)"
-COLOR_LIGHT_RED="$(tput setaf 1; tput bold)"
-COLOR_YELLOW="$(tput setaf 3)"
-COLOR_GREEN="$(tput setaf 2)"
-COLOR_BLUE="$(tput setaf 4)"
-COLOR_LIGHT_BLUE="$(tput setaf 4; tput bold)"
-COLOR_WHITE="$(tput setaf 7)"
-COLOR_LIGHT_PURPLE="$(tput setaf 5; tput bold)"
-COLOR_LIGHT_CYAN="$(tput setaf 6; tput bold)"
-COLOR_RESET="$(tput sgr0)"
-
-
-# Return the prompt symbol to use, colorized based on the return value of the
-# previous command.
-function set_prompt_symbol_color () {
-  if test $1 -eq 0 ; then
-      PROMPT_SYMBOL_COLOR=""
-  else
-      PROMPT_SYMBOL_COLOR="${COLOR_LIGHT_RED}"
-  fi
-}
-
-# Set the git status color
-function git_color {
-  local git_status="$(git status 2> /dev/null)"
-
-  if [[ ${git_status} =~ "working directory clean" ]]; then
-    GIT_STATE_COLOR="${COLOR_GREEN}"
-  elif  [[ ${git_status} =~ "working tree clean" ]]; then
-      GIT_STATE_COLOR="${COLOR_GREEN}"
-  elif [[ ${git_status} =~ "Changes to be committed" ]]; then
-    GIT_STATE_COLOR="${COLOR_YELLOW}"
-  elif [[ ${git_status} =~ "nothing added to commit but untracked files present" ]]; then
-    GIT_STATE_COLOR="${COLOR_GREEN}"
-  else
-    GIT_STATE_COLOR="${COLOR_LIGHT_RED}"
-  fi
-}
-
-# Detect whether the current directory is a git repository.
-function is_git_repository {
-  git branch > /dev/null 2>&1
-}
-
-# Set the full bash prompt.
-# https://bash.cyberciti.biz/guide/Changing_bash_prompt
-function set_bash_prompt () {
-  # Set the color of the PROMPT symbol
-  set_prompt_symbol_color $?
-  # Check if git exists and parse some info
-  if is_git_repository ; then
-    GIT_BRANCH="($(git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/\1/'))"
-    git_color
-  else
-    GIT_BRANCH=''
-    GIT_STATE_COLOR=''
-  fi
-  # Don't set PS1 or things like conda envs won't be properly displayed.
-}
-# Set command prompt function to call when the prompt is loaded
-PROMPT_COMMAND="set_bash_prompt"
-# Set the formatting of the first prompt line
-PS1="[\!] \[$COLOR_GREEN\]\u\[$COLOR_RESET\]@\[$COLOR_LIGHT_BLUE\]\h\[$COLOR_RESET\] \w \[\$GIT_STATE_COLOR\]\$GIT_BRANCH\[$COLOR_RESET\] \[\$PROMPT_SYMBOL_COLOR\]\$\[$COLOR_RESET\] "
-
-
-# Editor
-#######################################
-# Add nvim OS-X install to PATH
-NVIM_PATH="$HOME/nvim-osx64"
-if [ -d "$NVIM_PATH" ]; then
-  PATH="$NVIM_PATH/bin":$PATH
+# set variable identifying the chroot you work in (used in the prompt below)
+if [ -z "${debian_chroot:-}" ] && [ -r /etc/debian_chroot ]; then
+    debian_chroot=$(cat /etc/debian_chroot)
 fi
 
-# Use neovim if this is installed
-if type nvim > /dev/null 2>&1; then
-  alias vim='nvim'
+# set a fancy prompt (non-color, unless we know we "want" color)
+case "$TERM" in
+    xterm-color|*-256color) color_prompt=yes;;
+esac
+
+# uncomment for a colored prompt, if the terminal has the capability; turned
+# off by default to not distract the user: the focus in a terminal window
+# should be on the output of commands, not on the prompt
+#force_color_prompt=yes
+
+if [ -n "$force_color_prompt" ]; then
+    if [ -x /usr/bin/tput ] && tput setaf 1 >&/dev/null; then
+	# We have color support; assume it's compliant with Ecma-48
+	# (ISO/IEC-6429). (Lack of such support is extremely rare, and such
+	# a case would tend to support setf rather than setaf.)
+	color_prompt=yes
+    else
+	color_prompt=
+    fi
 fi
 
-# Set default editors to be vim
-export VISUAL=vim
-export EDITOR="$VISUAL"
+if [ "$color_prompt" = yes ]; then
+    PS1='${debian_chroot:+($debian_chroot)}\[\033[01;32m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\$ '
+else
+    PS1='${debian_chroot:+($debian_chroot)}\u@\h:\w\$ '
+fi
+unset color_prompt force_color_prompt
 
-
-# Git
-#######################################
-# Global gitignore
-git config --global core.excludesfile ~/.gitignore
-# Aliasses
-git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
-git config --global alias.lga "log --graph --pretty=oneline --abbrev-commit --decorate --all"
-git config --global alias.st "status -sbu"
-# Settings
-git config --global help.autocorrect 1
-git config --global color.ui true
-git config --global core.autocrlf input
-git config --global color.diff.meta "blue black bold"
-git config --global core.editor vim
-git config --global push.default simple
-
-
-# Configure ls
-#######################################
-# Add dark themed colors
-export CLICOLOR=1
-export LSCOLORS=GxFxCxDxBxegedabagaced
+# If this is an xterm set the title to user@host:dir
+case "$TERM" in
+xterm*|rxvt*)
+    PS1="\[\e]0;${debian_chroot:+($debian_chroot)}\u@\h: \w\a\]$PS1"
+    ;;
+*)
+    ;;
+esac
 
 # enable color support of ls and also add handy aliases
 if [ -x /usr/bin/dircolors ]; then
@@ -156,31 +84,13 @@ if [ -x /usr/bin/dircolors ]; then
     alias egrep='egrep --color=auto'
 fi
 
-# some ls aliases
+# colored GCC warnings and errors
+#export GCC_COLORS='error=01;31:warning=01;35:note=01;36:caret=01;32:locus=01:quote=01'
+
+# some more ls aliases
 alias ll='ls -alF'
 alias la='ls -A'
 alias l='ls -CF'
-
-
-# cd aliases
-#######################################
-# Navigation
-alias cd..="cd .."
-alias ..="cd .."
-alias ...="cd ../.."
-alias ....="cd ../../.."
-alias .....="cd ../../../.."
-
-
-# Alias misc
-#######################################
-# untar
-alias untar='tar xvf'
-# Always enable colored `grep` output
-alias grep='grep --color=auto '
-# History
-alias h='history'
-
 
 # Add an "alert" alias for long running commands.  Use like so:
 #   sleep 10; alert
@@ -206,18 +116,39 @@ if ! shopt -oq posix; then
   fi
 fi
 
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/peter/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/home/peter/miniconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/peter/miniconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/home/peter/miniconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
 
+# Editor
+#######################################
+# Set default editors to be neovim
+export VISUAL=nvim
+export EDITOR="$VISUAL"
+
+
+# cd aliases
+#######################################
+# Navigation
+alias cd..="cd .."
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+
+
+# Alias misc
+#######################################
+# untar
+alias untar='tar xvf'
+# Always enable colored `grep` output
+alias grep='grep --color=auto '
+# History
+alias h='history'
+
+
+# Ruby
+#######################################
+export GEM_HOME=~/.ruby/
+export PATH="$PATH:~/.ruby/bin"
+
+# Conda
+#######################################
+source "$HOME/miniconda3/etc/profile.d/conda.sh"

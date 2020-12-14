@@ -11,10 +11,11 @@ The `zshrc` config uses the [powerline fonts](https://github.com/powerline/fonts
 
 ### zsh plugins
 
-These can typically be installed by using oh-my-zsh as a plugin manager.
+The following plugins are installed by `setup.sh`.
 
 * [zsh-syntax-highlighting](https://github.com/zsh-users/zsh-syntax-highlighting)
 * [zsh-autosuggestions](https://github.com/zsh-users/zsh-autosuggestions)
+* [Powerlevel10k](https://github.com/romkatv/powerlevel10k) which can be reconfigured if needed by running `p10k configure`.
 
 
 ## Fonts

@@ -9,7 +9,7 @@ fi
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-export ZSH="/home/peter/.oh-my-zsh"
+export ZSH="$HOME/.oh-my-zsh"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -80,8 +80,8 @@ plugins=(
     docker
     docker-compose
     git
-    zsh-syntax-highlighting
     zsh-autosuggestions
+    zsh-syntax-highlighting
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -116,36 +116,14 @@ source $ZSH/oh-my-zsh.sh
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 
 
-# Git
-#######################################
-# Global gitignore
-git config --global core.excludesfile ~/.gitignore
-# Aliasses
-git config --global alias.lg "log --color --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit"
-git config --global alias.lga "log --graph --pretty=oneline --abbrev-commit --decorate --all"
-git config --global alias.st "status -sbu"
-# Settings
-git config --global help.autocorrect 1
-git config --global color.ui true
-git config --global core.autocrlf input
-git config --global color.diff.meta "blue black bold"
-git config --global core.editor vim
-git config --global push.default simple
-
-
 # Editor
 #######################################
-# Use neovim if this is installed
-if type nvim > /dev/null 2>&1; then
-  alias vim='nvim'
-fi
-
-# Set default editors to be vim
-export VISUAL=vim
+# Set default editors to be neovim
+export VISUAL=nvim
 export EDITOR="$VISUAL"
 
 
-# cd aliases
+#  aliases
 #######################################
 # Navigation
 alias cd..="cd .."
@@ -154,18 +132,17 @@ alias ...="cd ../.."
 alias ....="cd ../../.."
 alias .....="cd ../../../.."
 
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/home/peter/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/home/peter/miniconda3/etc/profile.d/conda.sh" ]; then
-        . "/home/peter/miniconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/home/peter/miniconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
+# Always enable colored `grep` output
+alias grep='grep --color=auto '
 
+# Ruby
+#######################################
+export GEM_HOME=~/.ruby/
+export PATH=$PATH:~/.ruby/bin
+
+# Conda
+#######################################
+source ~/miniconda3/etc/profile.d/conda.sh
+
+
+source ~/dotfiles/caps_lock_remap.sh
