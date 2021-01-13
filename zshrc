@@ -146,3 +146,8 @@ source ~/miniconda3/etc/profile.d/conda.sh
 
 
 source ~/dotfiles/caps_lock_remap.sh
+
+
+
+export PATH=$PATH:/home/peter/workspace/vault-scripts/bin
+

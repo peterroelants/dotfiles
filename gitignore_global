@@ -3,6 +3,11 @@
 # Copy paste what is needed
 #######################################
 
+# IDE #
+#######
+.idea/
+
+
 # OS X generated files #
 ########################
 .DS_Store
@@ -44,6 +49,10 @@ bin/
 #########
 .metadata/
 .pydevproject
+
+# VSCode #
+##########
+.vscode
 
 # Packages #
 ############
