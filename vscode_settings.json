@@ -1,0 +1,19 @@
+{
+    "workbench.editorAssociations": {
+        "*.ipynb": "jupyter-notebook"
+    },
+    "editor.renderWhitespace": "all",
+    "files.autoSave": "onFocusChange",
+    "editor.wordWrap": "on",
+    "debug.console.fontSize": 12,
+    "terminal.integrated.fontSize": 12,
+    "gitlens.codeLens.enabled": false,
+    "cSpell.userWords": [
+        "imzml",
+        "nbconvert",
+        "subshell",
+        "Δtime"
+    ],
+    "redhat.telemetry.enabled": false,
+    "editor.minimap.enabled": false,
+}

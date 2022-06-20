@@ -19,6 +19,11 @@ echo "Dotfiles directory = $dotdir"
 cd $dotdir
 echo "cd $dotdir"
 
+# Symlink aliases
+echo "Make symlink to aliases"
+rm -f ~/.aliases
+ln -s $dotdir/aliases ~/.aliases
+
 # Symlink bash_profile
 echo "Make symlink to bashrc"
 rm -f ~/.bashrc
@@ -43,6 +48,21 @@ echo "Make symlink to gitconfig"
 rm -f ~/.gitconfig
 ln -s $dotdir/gitconfig ~/.gitconfig
 
+# Symlink condarc
+echo "Make symlink to condarc"
+rm -f ~/.condarc
+ln -s $dotdir/condarc ~/.condarc
+
+# Install VSCode extensions
+echo "Install VSCode extensions"
+# Create list with `code --list-extensions > extensions.txt`
+cat $dotdir/vscode_extensions.txt | xargs -L 1 code --force --install-extension
+
+# Symlink VSCode settings
+echo "Make symlink to vscode settings"
+rm -f ~/.config/Code/User/settings.json
+ln -s $dotdir/vscode_settings.json ~/.config/Code/User/settings.json
+
 # Symlink init.vim
 echo "Make symlink to init.vim for nvim"
 rm -f ~/.config/nvim/init.vim
@@ -57,6 +77,8 @@ sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.
 echo "Install vim plugins"
 nvim --headless +PlugInstall +qall
 
+# Setup Gnome Terminal Theme
+$dotdir/config_gnome_terminal.sh
 
 # # Symlink tmux.conf
 # echo "Make symlink to tmux.conf"

@@ -1,0 +1,17 @@
+#  aliases
+#######################################
+# Navigation
+alias cd..="cd .."
+alias ..="cd .."
+alias ...="cd ../.."
+alias ....="cd ../../.."
+alias .....="cd ../../../.."
+
+# Always enable colored `grep` output
+alias grep="grep --color=auto "
+
+alias dist_upgrade="sudo apt update && sudo apt dist-upgrade && sudo apt autoremove --purge && sudo apt autoclean && sudo snap refresh"
+
+alias firmware_update="(sudo fwupdmgr refresh | true) && sudo fwupdmgr get-updates && sudo fwupdmgr update"
+
+alias update_all="dist_upgrade && mamba update mamba conda && omz update && firmware_update"

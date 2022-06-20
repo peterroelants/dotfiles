@@ -31,7 +31,16 @@
     default = simple
 [gui]
     fontui = -family \"DejaVu Sans\" -size 12 -weight normal -slant roman -underline 0 -overstrike 0
+	editor = nvim
+	historybrowser = gitk
 [web]
     browser = google-chrome
 [cola]
 	spellcheck = false
+	blameviewer = git gui blame
+	theme = flat-dark-blue
+	icontheme = dark
+[diff]
+    tool = vscode
+[difftool "vscode"]
+    cmd = code --wait --diff $LOCAL $REMOTE

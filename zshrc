@@ -40,7 +40,8 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # export UPDATE_ZSH_DAYS=13
 
 # Uncomment the following line if pasting URLs and other text is messed up.
-# DISABLE_MAGIC_FUNCTIONS="true"
+# See also: https://github.com/ohmyzsh/ohmyzsh/issues/6654#issuecomment-491504466
+DISABLE_MAGIC_FUNCTIONS="true"
 
 # Uncomment the following line to disable colors in ls.
 # DISABLE_LS_COLORS="true"
@@ -122,32 +123,25 @@ source $ZSH/oh-my-zsh.sh
 export VISUAL=nvim
 export EDITOR="$VISUAL"
 
-
 #  aliases
 #######################################
-# Navigation
-alias cd..="cd .."
-alias ..="cd .."
-alias ...="cd ../.."
-alias ....="cd ../../.."
-alias .....="cd ../../../.."
+source ~/.aliases
 
-# Always enable colored `grep` output
-alias grep='grep --color=auto '
+# General Config
+#######################################
+source ~/dotfiles/caps_lock_remap.sh
 
 # Ruby
 #######################################
 export GEM_HOME=~/.ruby/
 export PATH=$PATH:~/.ruby/bin
 
-# Conda
+# Mamba/Conda
 #######################################
-source ~/miniconda3/etc/profile.d/conda.sh
+export PATH=~/mambaforge/bin:$PATH
+source ~/mambaforge/etc/profile.d/conda.sh
+source ~/mambaforge/etc/profile.d/mamba.sh
 
-
-source ~/dotfiles/caps_lock_remap.sh
-
-
-
-export PATH=$PATH:/home/peter/workspace/vault-scripts/bin
-
+# Aspect stuff
+#######################################
+export PATH=$PATH:~/workspace/vault-scripts/bin

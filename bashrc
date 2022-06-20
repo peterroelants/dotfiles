@@ -147,8 +147,14 @@ alias h='history'
 # Ruby
 #######################################
 export GEM_HOME=~/.ruby/
-export PATH="$PATH:~/.ruby/bin"
+export PATH=$PATH:~/.ruby/bin
 
-# Conda
+# Mamba/Conda
 #######################################
-source "$HOME/miniconda3/etc/profile.d/conda.sh"
+export PATH=~/mambaforge/bin:$PATH
+source ~/mambaforge/etc/profile.d/conda.sh
+source ~/mambaforge/etc/profile.d/mamba.sh
+
+# Aspect stuff
+#######################################
+export PATH=$PATH:~/workspace/vault-scripts/bin
